@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Here we put strings that doesn't have to go to localization -->
+<resources>
+    <string name="preference_key_read_me">preference_key_read_me</string>
+</resources>

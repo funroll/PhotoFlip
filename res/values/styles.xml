@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BaseStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/smart_watch_text_size_small</item>
+        <item name="android:textColor">@color/smart_watch_text_color_white</item>
+    </style>
+</resources>
