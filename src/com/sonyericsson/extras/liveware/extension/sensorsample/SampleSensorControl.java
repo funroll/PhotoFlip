@@ -208,6 +208,7 @@ class SampleSensorControl extends ControlExtension {
 	            			Log.d(SampleExtensionService.LOG_TAG, "Using cache for urlString: " + urlString);
 	            		}
 	            		else {
+	            			startLedPattern(1, 1, 500, 500, 3);
 		            		Log.d(SampleExtensionService.LOG_TAG, "Loading url: " + urlString);
 		            		URL url = new URL(urlString);
 		                	//URL url = new URL("http://107.20.3.123/" + Integer.toString(imageNumber) + ".jpg");
