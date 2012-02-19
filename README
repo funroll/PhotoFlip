@@ -1,6 +1,8 @@
 PhotoFlip - submission for Global Android Dev Camp 2012 - bit.ly/PhotoFlip
+==========================================================================
 
 LiveView photo slideshow app.
+-----------------------------
 
 This is a modified version of the SmartWatch sensor example. Added a mechanism to detect a flipping motion of the wrist.
 
