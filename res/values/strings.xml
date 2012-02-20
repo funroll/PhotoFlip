@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Name of app, shown when installing/uninstalling extension -->
-    <string name="app_name">Sample sensor extension</string>
+    <string name="app_name">PhotoFlip</string>
     <!-- Title of preference activity -->
-    <string name="preference_activity_title">Sample sensor settings</string>
+    <string name="preference_activity_title">PhotoFlip settings</string>
     <!-- Name of extension, shown in preferences -->
-    <string name="extension_name">Sample sensor</string>
+    <string name="extension_name">PhotoFlip</string>
     <!-- Configuration title shown in preferences -->
-    <string name="configuration_text">Sample sensor settings</string>
+    <string name="configuration_text">PhotoFlip settings</string>
     <!-- Menu option shown in preferences -->
     <string name="preference_option_read_me">READ ME</string>
     <!-- Read me text shown in dialog -->
-    <string name="preference_option_read_me_txt">The sample sensor extension shows the reading from the device accelerometer on the device.</string>
+    <string name="preference_option_read_me_txt">PhotoFlip allows you to create a slide show of pictures on the web using a flip of your wrist</string>
 
     <!-- Sensor is unreliable. -->
     <string name="accuracy_unreliable">Unrel.</string>

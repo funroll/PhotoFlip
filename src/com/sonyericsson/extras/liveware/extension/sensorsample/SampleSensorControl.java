@@ -51,6 +51,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.*;
+import android.preference.*;
 
 import java.net.*;
 import java.io.*;
@@ -119,7 +120,10 @@ class SampleSensorControl extends ControlExtension {
         try {
         	urls = new ArrayList<String>();
         	
-        	String urlString = "http://107.20.3.123/photos";
+        	//Preference preference = findPreference(getText(R.string.preference_key_read_me));
+        	//String prefURL = preference.getString("editTextPref", "Nothing has been entered");
+        	//TODO: fetch from prefs
+        	String urlString = "http://bit.ly/gadcphotos";
         	System.out.println(urlString);
         	URL url = new URL(urlString);
         	HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -137,6 +141,7 @@ class SampleSensorControl extends ControlExtension {
             	System.out.println("line: " + line);
             	stringBuilder.append(line + "\n");
             }
+            bitmapFromFlipEvent(true);
             //time = stringBuilder.toString();
         	//System.out.println(time);
         }
@@ -164,6 +169,7 @@ class SampleSensorControl extends ControlExtension {
         }
     }
 
+
     /**
      * Update the display with new accelerometer data.
      *
@@ -173,11 +179,7 @@ class SampleSensorControl extends ControlExtension {
     	
         
     	
-        // Create bitmap to draw in.
-        Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, BITMAP_CONFIG);
-
-        // Set default density to avoid scaling.
-        bitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
+        
 
         LinearLayout root = new LinearLayout(mContext);
         root.setLayoutParams(new LayoutParams(WIDTH, HEIGHT));
@@ -196,45 +198,8 @@ class SampleSensorControl extends ControlExtension {
             if (values[1] > 1) {
             	long diff = mFlipTime - mNormalTime;
             	if (diff < 1000 && diff > 0) {
-	            	Log.d(SampleExtensionService.LOG_TAG, "Confirmed flip" + Long.toString(diff));
-	            	
-	            	
-	            	try {
-	            		Log.d(SampleExtensionService.LOG_TAG, "imageNumber: " + Integer.toString(imageNumber));
-	            		Log.d(SampleExtensionService.LOG_TAG, "urls" + Integer.toString(urls.size()));
-	            		String urlString = urls.get(imageNumber);
-	            		bitmap = map.get(urlString);
-	            		if (bitmap != null) {
-	            			Log.d(SampleExtensionService.LOG_TAG, "Using cache for urlString: " + urlString);
-	            		}
-	            		else {
-	            			startLedPattern(1, 1, 500, 500, 3);
-		            		Log.d(SampleExtensionService.LOG_TAG, "Loading url: " + urlString);
-		            		URL url = new URL(urlString);
-		                	//URL url = new URL("http://107.20.3.123/" + Integer.toString(imageNumber) + ".jpg");
-		                	
-		                	URLConnection conn = url.openConnection();
-		                	InputStream is = conn.getInputStream();
-		                	bitmap = BitmapFactory.decodeStream(is);
-		                	if (bitmap != null) {
-		                		map.put(urlString, bitmap);
-		                	}
-	            		}
-	            		if (imageNumber == 0) {
-	                		startVibrator(100, 100, 3);
-	                	}
-	            		imageNumber += 1;
-	            		Log.d(SampleExtensionService.LOG_TAG, "Number incremented");
-	                	if (imageNumber >= urls.size()) {
-	                		Log.d(SampleExtensionService.LOG_TAG, "Number wrapped");
-	                		imageNumber = 0;
-	                	}
-	                }
-	                catch (Exception e) {
-	                	e.printStackTrace();
-	                }
-	            	if (bitmap != null)
-	            		showBitmap(bitmap);
+            		Log.d(SampleExtensionService.LOG_TAG, "Confirmed flip" + Long.toString(diff));
+	            	bitmapFromFlipEvent(false);
             	}
             	mNormalTime = time;
             	//Log.d(SampleExtensionService.LOG_TAG, "Returned to normal");
@@ -269,6 +234,50 @@ class SampleSensorControl extends ControlExtension {
         //sampleLayout.draw(canvas);
 
     }
+
+	private void bitmapFromFlipEvent(Boolean dontVibrate) {
+		// Create bitmap to draw in.
+        Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, BITMAP_CONFIG);
+
+        // Set default density to avoid scaling.
+        bitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
+		try {
+			Log.d(SampleExtensionService.LOG_TAG, "imageNumber: " + Integer.toString(imageNumber));
+			Log.d(SampleExtensionService.LOG_TAG, "urls" + Integer.toString(urls.size()));
+			String urlString = urls.get(imageNumber);
+			bitmap = map.get(urlString);
+			if (bitmap != null) {
+				Log.d(SampleExtensionService.LOG_TAG, "Using cache for urlString: " + urlString);
+			}
+			else {
+				startLedPattern(1, 100, 500, 500, 3);
+				Log.d(SampleExtensionService.LOG_TAG, "Loading url: " + urlString);
+				URL url = new URL(urlString);
+		    	//URL url = new URL("http://107.20.3.123/" + Integer.toString(imageNumber) + ".jpg");
+		    	
+		    	URLConnection conn = url.openConnection();
+		    	InputStream is = conn.getInputStream();
+		    	bitmap = BitmapFactory.decodeStream(is);
+		    	if (bitmap != null) {
+		    		map.put(urlString, bitmap);
+		    	}
+			}
+			if (imageNumber == 0 && !dontVibrate) {
+				startVibrator(100, 100, 3);
+			}
+			imageNumber += 1;
+			Log.d(SampleExtensionService.LOG_TAG, "Number incremented");
+			if (imageNumber >= urls.size()) {
+				Log.d(SampleExtensionService.LOG_TAG, "Number wrapped");
+				imageNumber = 0;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (bitmap != null)
+			showBitmap(bitmap);
+	}
 
     /**
      * Convert an accuracy value to a text.
