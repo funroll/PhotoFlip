@@ -1,6 +1,8 @@
 PhotoFlip - submission for Global Android Dev Camp 2012 - bit.ly/PhotoFlip
 ==========================================================================
 
+[Note that this was developed over the course of 24 hours and hasn't been touched since, but still should be a viable example of a Sony Smartwatch App.]
+
 LiveView photo slideshow app.
 -----------------------------
 
